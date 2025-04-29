@@ -1,0 +1,39 @@
+/* style.css */
+
+body {
+	font-family: Arial, sans-serif;
+	text-align: center;
+	background: #f0f0f0;
+	margin: 0;
+	padding: 0;
+}
+
+#menu,
+#game {
+	margin-top: 50px;
+}
+
+#tetris {
+	background: #111;
+	margin-top: 20px;
+}
+
+#hud {
+	margin-top: 20px;
+}
+
+button {
+	margin: 5px;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+#pause {
+	color: red;
+	font-size: 32px;
+}
+
+#flash {
+	transition: opacity 0.3s ease;
+}
