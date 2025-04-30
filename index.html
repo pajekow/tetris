@@ -2,108 +2,60 @@
 <html lang="pl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tetris Game</title>
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    @media (max-width: 600px) {
-      #tetris {
-        width: 100%;
-        height: auto;
-      }
 
-      button {
-        font-size: 14px;
-        padding: 8px 16px;
-      }
-    }
-  </style>
+  <!-- Łączenie arkusza stylów CSS -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
+  <!-- MENU STARTOWE -->
   <div id="menu">
     <h1>Tetris Menu</h1>
-    <input type="text" id="username" placeholder="Wprowadź nazwę użytkownika" aria-label="Nazwa użytkownika">
-    <button onclick="if (typeof loginUser === 'function') loginUser();" aria-label="Zaloguj się">Zaloguj się</button>
+
+    <!-- Pole do wpisania nazwy użytkownika -->
+    <input type="text" id="username" placeholder="Wprowadź nazwę użytkownika" />
+
+    <!-- Przycisk logowania -->
+    <button onclick="loginUser()">Zaloguj się</button>
+
+    <!-- Wybór poziomu trudności -->
     <select id="difficulty">
       <option value="beginner">Początkujący</option>
       <option value="intermediate">Średniozaawansowany</option>
       <option value="advanced">Zaawansowany</option>
     </select>
-    <button onclick="if (typeof startGame === 'function') startGame();" aria-label="Rozpocznij grę">Start</button>
+
+    <!-- Przycisk rozpoczęcia gry -->
+    <button onclick="startGame()">Start</button>
   </div>
 
-  <div id="game" style="display:none">
+  <!-- GŁÓWNY WIDOK GRY -->
+  <div id="game" style="display: none">
+    <!-- Canvas, na którym rysowana jest gra -->
     <canvas id="tetris" width="300" height="600"></canvas>
+
+    <!-- HUD (interfejs użytkownika) -->
     <div id="hud">
-      <div id="score">Punkty: 0</div>
-      <div id="level">Poziom: 1</div>
-      <div id="pause" style="display:none">PAUZA</div>
-      <button onclick="if (typeof restartGame === 'function') restartGame();"
-        aria-label="Restartuj grę">Restart</button>
+      <div id="score">Punkty: 0</div> <!-- Licznik punktów -->
+      <div id="level">Poziom: 1</div> <!-- Aktualny poziom -->
+      <div id="pause" style="display: none">PAUZA</div> <!-- Informacja o pauzie -->
+      <button onclick="restartGame()">Restart</button> <!-- Przycisk restartu -->
     </div>
   </div>
 
-  <div id="flash" style="display:none"></div>
+  <!-- Element do efektów wizualnych (np. błysk, koniec gry) -->
+  <div id="flash" style="display: none"></div>
 
-  <script src="js/config.js"></script>
-  <script src="js/user.js"></script>
-  <script src="js/figures.js"></script>
-  <script src="js/menu.js"></script>
-  <script src="js/game.js"></script>
-  <script>
-    function validateConfig(config) {
-      if (config.blockSize <= 0) throw new Error('Nieprawidłowy rozmiar klocka!');
-      if (!config.speed.beginner || !config.speed.intermediate || !config.speed.advanced) {
-        throw new Error('Nieprawidłowe ustawienia prędkości!');
-      }
-    }
-    validateConfig(CONFIG);
-
-    function spawnFigure() {
-      try {
-        const figuresList = FIGURES[currentDifficulty];
-        if (!figuresList) throw new Error('Nie znaleziono figur dla wybranego poziomu trudności!');
-        const randomFigure = figuresList[Math.floor(Math.random() * figuresList.length)];
-        currentFigure = {
-          shape: JSON.parse(JSON.stringify(randomFigure.shape)),
-          x: Math.floor(canvas.width / CONFIG.blockSize / 2) - 1,
-          y: 0,
-          color: FIGURE_COLORS[randomFigure.type],
-        };
-        checkGameOver();
-      } catch (error) {
-        console.error('Błąd podczas generowania figury:', error);
-      }
-    }
-
-    function loginUser() {
-      const usernameInput = document.getElementById('username').value.trim();
-      const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/; // tylko litery, cyfry, myślniki, podkreślenia
-      if (!usernameRegex.test(usernameInput)) {
-        alert('Nazwa użytkownika musi mieć od 3 do 16 znaków i zawierać tylko litery, cyfry, myślniki lub podkreślenia!');
-        return;
-      }
-      currentUser = usernameInput;
-      // ...pozostały kod
-    }
-
-    function startGame() {
-      if (!currentUser) {
-        alert('Musisz się najpierw zalogować!');
-        return;
-      }
-      if (document.getElementById('game').style.display === 'block') {
-        alert('Gra jest już uruchomiona!');
-        return;
-      }
-      document.getElementById('menu').style.display = 'none';
-      document.getElementById('game').style.display = 'block';
-      initGame();
-    }
-  </script>
-  <script src="js/main.js"></script>
+  <!-- Załączenie plików JS w odpowiedniej kolejności -->
+  <script src="js/config.js"></script> <!-- Konfiguracja gry -->
+  <script src="js/user.js"></script> <!-- Obsługa użytkownika -->
+  <script src="js/figures.js"></script> <!-- Definicje klocków -->
+  <script src="js/menu.js"></script> <!-- Logika menu startowego -->
+  <script src="js/game.js"></script> <!-- Silnik gry -->
+  <script src="js/main.js"></script> <!-- Start gry i logi -->
 </body>
 
 </html>
